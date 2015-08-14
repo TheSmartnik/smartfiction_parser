@@ -16,6 +16,7 @@ doc.css('div.post').each do |post|
   next unless book = response['documents']['objects'].first
   document_id = book["uuid"]
 
-  RestClient.post "http://bookmate.com/a/4/bs/DrGXOsPf/d", auth_token: AUTH_TOKEN, id: document_id
+  response = RestClient.post "http://api.bookmate.com/a/4/bs/DrGXOsPf/d", auth_token: AUTH_TOKEN, id: document_id, d: { annotation: nil }
+  puts response
   break
 end
