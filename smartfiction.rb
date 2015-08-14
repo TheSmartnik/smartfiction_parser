@@ -7,10 +7,15 @@ require 'restclient'
 
 doc = Nokogiri::HTML(open "http://www.smartfiction.ru/")
 
+AUTH_TOKEN = ''
+
 doc.css('div.post').each do |post|
   name_and_athor = post.css('h2').first.text
   response = JSON.parse RestClient.get(URI.escape("https://bookmate.com/a/4/search.json?query=#{name_and_athor}"))
 
   next unless book = response['documents']['objects'].first
-  book_uuid = book["uuid"]
+  document_id = book["uuid"]
+
+  RestClient.post "http://bookmate.com/a/4/bs/DrGXOsPf/d", auth_token: AUTH_TOKEN, id: document_id
+  break
 end
